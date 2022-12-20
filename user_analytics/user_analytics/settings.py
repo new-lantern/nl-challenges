@@ -27,6 +27,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+HASHID_FIELD_SALT = "very-hidden"
 
 # Application definition
 
@@ -37,6 +38,10 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "rest_framework",
+    "django_filters",
+    "drf_spectacular",
+    "user_analytics.core.apps.CoreConfig",
 ]
 
 MIDDLEWARE = [
@@ -69,7 +74,23 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "user_analytics.wsgi.application"
 
-
+# django-rest-framework
+# -------------------------------------------------------------------------------
+# django-rest-framework - https://www.django-rest-framework.org/api-guide/settings/
+REST_FRAMEWORK = {
+    "DEFAULT_FILTER_BACKENDS": (
+        "django_filters.rest_framework.DjangoFilterBackend",
+    ),
+    # "DEFAULT_PERMISSION_CLASSES": ("rest_framework.permissions.AllowAny",),
+    # "DEFAULT_AUTHENTICATION_CLASSES": (
+    #     "rest_framework.authentication.SessionAuthentication",
+    # ),
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+    "TEST_REQUEST_RENDERER_CLASSES": [
+        "rest_framework.renderers.JSONRenderer",
+    ],
+    "TEST_REQUEST_DEFAULT_FORMAT": "json",
+}
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 

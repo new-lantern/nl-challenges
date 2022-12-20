@@ -13,9 +13,43 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+from django.conf import settings
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
+from drf_spectacular.views import (
+    SpectacularAPIView,
+    SpectacularRedocView,
+    SpectacularSwaggerView,
+)
+
+from rest_framework.routers import DefaultRouter, SimpleRouter
+
+from user_analytics.core.api_views import (
+    StudyViewSet,
+    UserViewSet,
+)
+
+# Create a router and register our viewsets with it.
+if settings.DEBUG:
+    router = DefaultRouter()
+else:
+    router = SimpleRouter()
+
+router.register("studies", StudyViewSet)
+router.register("users", UserViewSet)
 
 urlpatterns = [
+    path("api/schema/", SpectacularAPIView.as_view(), name="schema"),
+    path(
+        "api/swagger/",
+        SpectacularSwaggerView.as_view(url_name="schema"),
+        name="swagger-ui",
+    ),
+    path(
+        "api/swagger/redoc/",
+        SpectacularRedocView.as_view(url_name="schema"),
+        name="redoc",
+    ),
     path("admin/", admin.site.urls),
+    path('api/', include((router.urls, "api"), namespace="api")),
 ]
