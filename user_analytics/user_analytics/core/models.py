@@ -51,7 +51,7 @@ class User(models.Model):
 class Study(models.Model):
     id = HashidAutoField(primary_key=True)
     assigned_to = models.ManyToManyField(User, related_name="studies_assigned")
-    timestamp = models.TimeField(null=True, blank=True)
+    date = models.DateField(null=True, blank=True)
     revenue = models.PositiveIntegerField(null=True, blank=True)
     modality = models.CharField(max_length=32, choices=Modality.choices, null=True, blank=True)
     body_part = models.CharField(max_length=16, choices=BodyPart.choices, null=True, blank=True)
