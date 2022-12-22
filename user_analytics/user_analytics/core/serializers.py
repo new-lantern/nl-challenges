@@ -11,13 +11,6 @@ from .models import (
 
 class UserSerializer(serializers.ModelSerializer):
     id = HashidSerializerCharField(source_field="core.User.id", read_only=True)
-    UserName = serializers.CharField(source="name", read_only=True)
-    SubspecialtyModality = serializers.CharField(source="subspecialty_modality", read_only=True)
-    SubspecialtyBodyPart = serializers.CharField(source="subspecialty_body_part", read_only=True)
-    SlaGoal = serializers.FloatField(source="sla_goal", read_only=True)
-    RevenueGoal = serializers.IntegerField(source="revenue_goal", read_only=True)
-    StudiesGoal = serializers.IntegerField(source="revenue_goal", read_only=True)
-
     class Meta:
         model = User
         fields = "__all__"
@@ -36,13 +29,6 @@ class StudySerializer(serializers.ModelSerializer):
         queryset=User.objects.all(),
         many=True,
     )
-    StudyTimestamp = serializers.TimeField(source="timestamp", read_only=True)
-    StudyRevenue = serializers.IntegerField(source="revenue", read_only=True)
-    StudyModality = serializers.CharField(source="modality", read_only=True)
-    StudyBodyPart = serializers.CharField(source="body_part", read_only=True)
-    StudySla = serializers.IntegerField(source="sla", read_only=True)
-
-    
     class Meta:
         model = Study
         fields = "__all__"
